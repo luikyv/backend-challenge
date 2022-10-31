@@ -1,5 +1,6 @@
-package com.tokenvalidator.app.model.validators;
+package com.tokenvalidator.app.unit.validators;
 
+import com.tokenvalidator.app.model.validators.TokenValidator;
 import com.tokenvalidator.app.model.Token;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -18,11 +19,6 @@ public class TestTokenValidator {
     Key key = Keys.hmacShaKeyFor(secret.getBytes());
     @Autowired
     TokenValidator tokenValidator;
-
-    @Test
-    public void testPrint() {
-        tokenValidator.print();
-    }
 
     @Test
     public void testInvalidToken() {

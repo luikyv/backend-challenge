@@ -1,5 +1,6 @@
-package com.tokenvalidator.app.model.validators;
+package com.tokenvalidator.app.unit.validators;
 
+import com.tokenvalidator.app.model.validators.TokenClaimRoleRuleValidator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -11,16 +12,15 @@ import java.security.Key;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TestTokenClaimSeedRuleValidator {
-    TokenClaimSeedRuleValidator ruleValidator = new TokenClaimSeedRuleValidator();
+public class TestTokenClaimRoleRuleValidator {
+    TokenClaimRoleRuleValidator ruleValidator = new TokenClaimRoleRuleValidator();
     Key key = Keys.hmacShaKeyFor("secret00000000000000000000000000000".getBytes());
 
     @Test
-    public void testSeedIsNotANumber() {
+    public void testNoRoleClaim() {
         String jwt = Jwts.builder()
-                .claim("Seed", "test")
+                .claim("Seed", "72341")
                 .claim("Name", "Maria")
-                .claim("Role", "External")
                 .signWith(key)
                 .compact();
         Jws<Claims> jws = Jwts.parser()
@@ -31,11 +31,11 @@ public class TestTokenClaimSeedRuleValidator {
     }
 
     @Test
-    public void testSeedIsNotAPrimeNumber() {
+    public void testNonExistentRole() {
         String jwt = Jwts.builder()
-                .claim("Seed", "240")
+                .claim("Role", "NonExistet")
+                .claim("Seed", "72341")
                 .claim("Name", "Maria")
-                .claim("Role", "External")
                 .signWith(key)
                 .compact();
         Jws<Claims> jws = Jwts.parser()
@@ -46,11 +46,11 @@ public class TestTokenClaimSeedRuleValidator {
     }
 
     @Test
-    public void testSuccessful() {
+    public void testRoleSuccessful() {
         String jwt = Jwts.builder()
-                .claim("Seed", "3779")
+                .claim("Role", "Member")
+                .claim("Seed", "72341")
                 .claim("Name", "Maria")
-                .claim("Role", "External")
                 .signWith(key)
                 .compact();
         Jws<Claims> jws = Jwts.parser()

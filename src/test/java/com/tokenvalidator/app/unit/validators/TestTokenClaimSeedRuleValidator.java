@@ -1,27 +1,27 @@
-package com.tokenvalidator.app.model.validators;
+package com.tokenvalidator.app.unit.validators;
 
+import com.tokenvalidator.app.model.validators.TokenClaimSeedRuleValidator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.Test;
-import org.springframework.stereotype.Component;
 
 import java.security.Key;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-public class TestTokenNumberOfClaimsRuleValidator {
-    TokenNumberOfClaimsRuleValidator ruleValidator = new TokenNumberOfClaimsRuleValidator();
+
+public class TestTokenClaimSeedRuleValidator {
+    TokenClaimSeedRuleValidator ruleValidator = new TokenClaimSeedRuleValidator();
     Key key = Keys.hmacShaKeyFor("secret00000000000000000000000000000".getBytes());
 
     @Test
-    public void testMoreThan3Claims() {
+    public void testSeedIsNotANumber() {
         String jwt = Jwts.builder()
-                .claim("Role", "Admin")
-                .claim("Seed", "72341")
+                .claim("Seed", "test")
                 .claim("Name", "Maria")
-                .claim("Test", "test")
+                .claim("Role", "External")
                 .signWith(key)
                 .compact();
         Jws<Claims> jws = Jwts.parser()
@@ -32,25 +32,11 @@ public class TestTokenNumberOfClaimsRuleValidator {
     }
 
     @Test
-    public void testClaimMissing() {
+    public void testSeedIsNotAPrimeNumber() {
         String jwt = Jwts.builder()
-                .claim("Role", "Admin")
-                .claim("Seed", "72341")
-                .claim("Test", "Maria")
-                .signWith(key)
-                .compact();
-        Jws<Claims> jws = Jwts.parser()
-                .setSigningKey(key)
-                .parseClaimsJws(jwt);
-
-        assertFalse(ruleValidator.validateRule(jws));
-    }
-
-    @Test
-    public void testLessThan3Claims() {
-        String jwt = Jwts.builder()
-                .claim("Role", "Admin")
-                .claim("Seed", "72341")
+                .claim("Seed", "240")
+                .claim("Name", "Maria")
+                .claim("Role", "External")
                 .signWith(key)
                 .compact();
         Jws<Claims> jws = Jwts.parser()
@@ -63,9 +49,9 @@ public class TestTokenNumberOfClaimsRuleValidator {
     @Test
     public void testSuccessful() {
         String jwt = Jwts.builder()
-                .claim("Role", "Admin")
-                .claim("Seed", "72341")
+                .claim("Seed", "3779")
                 .claim("Name", "Maria")
+                .claim("Role", "External")
                 .signWith(key)
                 .compact();
         Jws<Claims> jws = Jwts.parser()
@@ -74,5 +60,4 @@ public class TestTokenNumberOfClaimsRuleValidator {
 
         assertTrue(ruleValidator.validateRule(jws));
     }
-
 }

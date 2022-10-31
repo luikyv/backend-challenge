@@ -1,5 +1,6 @@
-package com.tokenvalidator.app.model.validators;
+package com.tokenvalidator.app.unit.validators;
 
+import com.tokenvalidator.app.model.validators.TokenNumberOfClaimsRuleValidator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -10,16 +11,17 @@ import java.security.Key;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-public class TestTokenClaimRoleRuleValidator {
-    TokenClaimRoleRuleValidator ruleValidator = new TokenClaimRoleRuleValidator();
+public class TestTokenNumberOfClaimsRuleValidator {
+    TokenNumberOfClaimsRuleValidator ruleValidator = new TokenNumberOfClaimsRuleValidator();
     Key key = Keys.hmacShaKeyFor("secret00000000000000000000000000000".getBytes());
 
     @Test
-    public void testNoRoleClaim() {
+    public void testMoreThan3Claims() {
         String jwt = Jwts.builder()
+                .claim("Role", "Admin")
                 .claim("Seed", "72341")
                 .claim("Name", "Maria")
+                .claim("Test", "test")
                 .signWith(key)
                 .compact();
         Jws<Claims> jws = Jwts.parser()
@@ -30,11 +32,11 @@ public class TestTokenClaimRoleRuleValidator {
     }
 
     @Test
-    public void testNonExistentRole() {
+    public void testClaimMissing() {
         String jwt = Jwts.builder()
-                .claim("Role", "NonExistet")
+                .claim("Role", "Admin")
                 .claim("Seed", "72341")
-                .claim("Name", "Maria")
+                .claim("Test", "Maria")
                 .signWith(key)
                 .compact();
         Jws<Claims> jws = Jwts.parser()
@@ -45,9 +47,23 @@ public class TestTokenClaimRoleRuleValidator {
     }
 
     @Test
-    public void testRoleSuccessful() {
+    public void testLessThan3Claims() {
         String jwt = Jwts.builder()
-                .claim("Role", "Member")
+                .claim("Role", "Admin")
+                .claim("Seed", "72341")
+                .signWith(key)
+                .compact();
+        Jws<Claims> jws = Jwts.parser()
+                .setSigningKey(key)
+                .parseClaimsJws(jwt);
+
+        assertFalse(ruleValidator.validateRule(jws));
+    }
+
+    @Test
+    public void testSuccessful() {
+        String jwt = Jwts.builder()
+                .claim("Role", "Admin")
                 .claim("Seed", "72341")
                 .claim("Name", "Maria")
                 .signWith(key)
@@ -58,4 +74,5 @@ public class TestTokenClaimRoleRuleValidator {
 
         assertTrue(ruleValidator.validateRule(jws));
     }
+
 }

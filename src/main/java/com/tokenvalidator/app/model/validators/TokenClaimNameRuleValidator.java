@@ -1,6 +1,5 @@
 package com.tokenvalidator.app.model.validators;
 
-import com.tokenvalidator.app.model.Token;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.springframework.stereotype.Component;

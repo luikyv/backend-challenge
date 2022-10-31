@@ -43,3 +43,4 @@ Diagram built using mermaid.js. More info on: https://mermaid-js.github.io/merma
 
 ## References
 * Parse JWTs: https://developer.okta.com/blog/2018/10/31/jwts-with-java; https://www.youtube.com/watch?v=O-sTJbeUagE
+* Autowire collections: https://javabydeveloper.com/spring-injecting-collections/#4-5-injecting-components-as-list

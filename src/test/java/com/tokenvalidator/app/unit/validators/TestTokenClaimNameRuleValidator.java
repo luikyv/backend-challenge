@@ -1,5 +1,6 @@
-package com.tokenvalidator.app.model.validators;
+package com.tokenvalidator.app.unit.validators;
 
+import com.tokenvalidator.app.model.validators.TokenClaimNameRuleValidator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -9,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.security.Key;
-import java.util.Base64;
 
 public class TestTokenClaimNameRuleValidator {
 
