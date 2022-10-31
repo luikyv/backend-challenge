@@ -31,6 +31,21 @@ public class TestTokenClaimNameRuleValidator {
     }
 
     @Test
+    public void testClaimIsNotString() {
+        String jwt = Jwts.builder()
+                .claim("Name", 1)
+                .claim("Role", "External")
+                .claim("Seed", "72341")
+                .signWith(key)
+                .compact();
+        Jws<Claims> jws = Jwts.parser()
+                .setSigningKey(key)
+                .parseClaimsJws(jwt);
+
+        assertFalse(ruleValidator.validateRule(jws));
+    }
+
+    @Test
     public void testNameWithNumbers() {
         String jwt = Jwts.builder()
                 .claim("Role", "External")

@@ -47,6 +47,21 @@ public class TestTokenClaimSeedRuleValidator {
     }
 
     @Test
+    public void testSeedIsNegative() {
+        String jwt = Jwts.builder()
+                .claim("Seed", "-3")
+                .claim("Name", "Maria")
+                .claim("Role", "External")
+                .signWith(key)
+                .compact();
+        Jws<Claims> jws = Jwts.parser()
+                .setSigningKey(key)
+                .parseClaimsJws(jwt);
+
+        assertFalse(ruleValidator.validateRule(jws));
+    }
+
+    @Test
     public void testSuccessful() {
         String jwt = Jwts.builder()
                 .claim("Seed", "3779")

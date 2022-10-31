@@ -19,7 +19,13 @@ public class TokenClaimNameRuleValidator implements TokenRuleValidator {
     }
 
     public boolean validateRule(Jws<Claims> jws) {
-        String name = jws.getBody().get("Name", String.class);
+        String name;
+        try {
+            name = jws.getBody().get("Name", String.class);
+        } catch (io.jsonwebtoken.RequiredTypeException e) {
+            return false;
+        }
+
         if(name == null || name.length() > 256) { return false; }
 
         Matcher matcher = numberPattern.matcher(name);
