@@ -62,7 +62,7 @@ public class TestTokenClaimNameRuleValidator {
     }
 
     @Test
-    public void testNameSuccessful() {
+    public void testSuccessful() {
         String jwt = Jwts.builder()
                 .claim("Role", "External")
                 .claim("Seed", "72341")

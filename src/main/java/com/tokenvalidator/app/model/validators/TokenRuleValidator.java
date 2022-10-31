@@ -7,5 +7,5 @@ import io.jsonwebtoken.Jws;
  * Generic interface to implement business rules on JWTs
  */
 public interface TokenRuleValidator {
-    public boolean validateRule(Jws<Claims> jws);
+    boolean validateRule(Jws<Claims> jws);
 }

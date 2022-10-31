@@ -3,6 +3,7 @@ package com.tokenvalidator.app.model.validators;
 import com.tokenvalidator.app.model.Token;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import org.springframework.stereotype.Component;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,6 +11,7 @@ import java.util.regex.Pattern;
 /**
  * Rule: the claim "Name" must neither contain digits nor be larger than 256 characters
  */
+@Component
 public class TokenClaimNameRuleValidator implements TokenRuleValidator {
     private Pattern numberPattern;
     public TokenClaimNameRuleValidator() {

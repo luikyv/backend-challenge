@@ -5,33 +5,26 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.security.Key;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Define and apply business rules to validate tokens
  */
-@Service
+@Component
 public class TokenValidator {
-    private ArrayList<TokenRuleValidator> tokenRuleValidators;
+    @Autowired
+    // List containing all the implementations of TokenRuleValidator
+    private List<TokenRuleValidator> tokenRuleValidators;
     private Key key;
 
-    public TokenValidator(String secret) {
+    public TokenValidator(@Value("${secret}") String secret) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
-        defineRuleValidators();
-    }
-
-    private void defineRuleValidators() {
-        tokenRuleValidators = new ArrayList<TokenRuleValidator>();
-        tokenRuleValidators.add(new TokenNumberOfClaimsRuleValidator());
-        tokenRuleValidators.add(new TokenClaimNameRuleValidator());
-        tokenRuleValidators.add(new TokenClaimRoleRuleValidator());
-        tokenRuleValidators.add(new TokenClaimSeedRuleValidator());
     }
 
     public boolean validateRules(Token token) {

@@ -4,6 +4,7 @@ import com.tokenvalidator.app.model.Token;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.security.Key;
@@ -11,10 +12,17 @@ import java.security.Key;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@SpringBootTest(properties = "secret=secret00000000000000000000000000000")
 public class TestTokenValidator {
     String secret = "secret00000000000000000000000000000";
     Key key = Keys.hmacShaKeyFor(secret.getBytes());
-    TokenValidator tokenValidator = new TokenValidator(secret);
+    @Autowired
+    TokenValidator tokenValidator;
+
+    @Test
+    public void testPrint() {
+        tokenValidator.print();
+    }
 
     @Test
     public void testInvalidToken() {

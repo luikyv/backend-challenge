@@ -2,6 +2,7 @@ package com.tokenvalidator.app.model.validators;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,11 +10,11 @@ import java.util.Collections;
 /**
  * Rule: there must be three claims: "Name", "Seed" and "Role"
  */
+@Component
 public class TokenNumberOfClaimsRuleValidator implements TokenRuleValidator {
     private enum AllowedClaims {
         Name, Role, Seed;
     }
-
     public boolean validateRule(Jws<Claims> jws) {
         Claims claims = jws.getBody();
         if(AllowedClaims.values().length != claims.size()) {

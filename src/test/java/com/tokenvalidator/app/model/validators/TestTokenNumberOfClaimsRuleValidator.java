@@ -5,12 +5,12 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.Test;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public class TestTokenNumberOfClaimsRuleValidator {
     TokenNumberOfClaimsRuleValidator ruleValidator = new TokenNumberOfClaimsRuleValidator();
     Key key = Keys.hmacShaKeyFor("secret00000000000000000000000000000".getBytes());
