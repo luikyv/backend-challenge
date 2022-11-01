@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.security.Key;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,19 +45,18 @@ public class TestTokenController {
                 .signWith(key)
                 .compact();
 
-        String jsonResponse = "{'validToken': false}";
         mockMvc.perform(post("/validate", 42L)
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(new Token(jwtInvalid))))
-                .andExpect(status().isOk()).andExpect(content().json(jsonResponse));
+                .andExpect(status().isOk()).andExpect(content().string("false"));
         mockMvc.perform(post("/validate", 42L)
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(new Token(jwtMissingClaim))))
-                .andExpect(status().isOk()).andExpect(content().json(jsonResponse));
+                .andExpect(status().isOk()).andExpect(content().string("false"));
         mockMvc.perform(post("/validate", 42L)
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(new Token(jwtSeedNotPrime))))
-                .andExpect(status().isOk()).andExpect(content().json(jsonResponse));
+                .andExpect(status().isOk()).andExpect(content().string("false"));
     }
 
     @Test
@@ -74,15 +74,14 @@ public class TestTokenController {
                 .signWith(key)
                 .compact();
 
-        String jsonResponse = "{'validToken': true}";
         mockMvc.perform(post("/validate", 42L)
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(new Token(jwtCorrect1))))
-                .andExpect(status().isOk()).andExpect(content().json(jsonResponse));
+                .andExpect(status().isOk()).andExpect(content().string("true"));
         mockMvc.perform(post("/validate", 42L)
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(new Token(jwtCorrect2))))
-                .andExpect(status().isOk()).andExpect(content().json(jsonResponse));
+                .andExpect(status().isOk()).andExpect(content().string("true"));
     }
 
 }
