@@ -30,6 +30,7 @@ public class TokenClaimSeedRuleValidator extends TokenRuleValidator {
 
     private boolean isPrime(int number) {
         if(number <= 1) { return false; }
+        // We just need to verify division from 2 to sqrt(n) included
         for(int i=2; i<=Math.sqrt(number); i++) {
             if(number%i == 0) { return false; }
         }

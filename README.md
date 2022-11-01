@@ -12,7 +12,7 @@ the class will be referenced in the list held by TokenValidator. This allows us 
 to make changes on existing code.
 - We assumed there will be just one set of business rules for JWTs. That means every JWT must comply with all the business
 rules defined. However, if we'd have, let's say, two sets of rules, we could easily refactor the code to separate the rule
-validators by, for instance, creating one interface for each group of rules.
+validators by, for instance, creating an interface for the TokenValidator class. Then we could implement multiple TokenValidators.
 - We assumed that the values of the claims in a JWT are always Strings.
 
 ## Class Diagram

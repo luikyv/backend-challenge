@@ -5,7 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 
 /**
- * Generic interface to implement business rules on JWTs
+ * Generic abstract class to implement business rules on JWTs
  */
 public abstract class TokenRuleValidator {
     abstract boolean validateRule(Jws<Claims> jws);

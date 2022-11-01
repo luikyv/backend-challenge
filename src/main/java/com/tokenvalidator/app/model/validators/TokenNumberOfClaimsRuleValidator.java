@@ -15,10 +15,12 @@ public class TokenNumberOfClaimsRuleValidator extends TokenRuleValidator {
     }
     public boolean validateRule(Jws<Claims> jws) {
         Claims claims = jws.getBody();
+        // Verify that the number of claims is the expected
         if(AllowedClaims.values().length != claims.size()) {
             return false;
         }
 
+        // Verify that each defined claims exists in jws
         for(AllowedClaims allowedClaim: AllowedClaims.values()) {
             try {
                 getClaimValue(jws, allowedClaim.name());
