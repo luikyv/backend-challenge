@@ -17,6 +17,21 @@ public class TestTokenClaimRoleRuleValidator {
     Key key = Keys.hmacShaKeyFor("secret00000000000000000000000000000".getBytes());
 
     @Test
+    public void testRoleIsNotString() {
+        String jwt = Jwts.builder()
+                .claim("Seed", "72341")
+                .claim("Name", "Maria")
+                .claim("Role", 1)
+                .signWith(key)
+                .compact();
+        Jws<Claims> jws = Jwts.parser()
+                .setSigningKey(key)
+                .parseClaimsJws(jwt);
+
+        assertFalse(ruleValidator.validateRule(jws));
+    }
+
+    @Test
     public void testNoRoleClaim() {
         String jwt = Jwts.builder()
                 .claim("Seed", "72341")

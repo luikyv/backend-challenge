@@ -1,5 +1,6 @@
 package com.tokenvalidator.app.model.validators;
 
+import com.tokenvalidator.app.model.validators.exceptions.InvalidClaimValueException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.springframework.stereotype.Component;
@@ -8,10 +9,16 @@ import org.springframework.stereotype.Component;
  * Rule: The claims "Seed" must be a prime number
  */
 @Component
-public class TokenClaimSeedRuleValidator implements TokenRuleValidator {
+public class TokenClaimSeedRuleValidator extends TokenRuleValidator {
     public boolean validateRule(Jws<Claims> jws) {
-        String seedString = jws.getBody().get("Seed", String.class);
+        String seedString;
         int seed;
+
+        try {
+            seedString = getClaimValue(jws, "Seed");
+        } catch (InvalidClaimValueException e) {
+            return false;
+        }
         try {
             seed = Integer.parseInt(seedString);
         } catch (NumberFormatException e) {

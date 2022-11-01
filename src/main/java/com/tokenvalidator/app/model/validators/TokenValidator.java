@@ -33,11 +33,8 @@ public class TokenValidator {
             jws = Jwts.parser()
                     .setSigningKey(key)
                     .parseClaimsJws(token.getValue());
-        } catch (io.jsonwebtoken.ExpiredJwtException |
-                 io.jsonwebtoken.UnsupportedJwtException |
-                 io.jsonwebtoken.MalformedJwtException |
-                 io.jsonwebtoken.security.SignatureException e
-        ) { return false; }
+            //TODO: Catch the right exceptions
+        } catch (Exception e) { return false; }
 
         // Check each one of the business rules
         for(TokenRuleValidator tokenRuleValidator: tokenRuleValidators) {

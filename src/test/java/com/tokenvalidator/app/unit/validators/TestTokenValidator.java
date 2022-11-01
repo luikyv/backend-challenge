@@ -45,10 +45,17 @@ public class TestTokenValidator {
                 .claim("Seed", "30")
                 .signWith(key)
                 .compact();
+        String jwtNameNotString = Jwts.builder()
+                .claim("Name", 1234)
+                .claim("Role", "External")
+                .claim("Seed", "30")
+                .signWith(key)
+                .compact();
 
         assertFalse(tokenValidator.validateRules(new Token(jwtMissingClaim)));
         assertFalse(tokenValidator.validateRules(new Token(jwtNameWithNumber)));
         assertFalse(tokenValidator.validateRules(new Token(jwtSeedNotPrime)));
+        assertFalse(tokenValidator.validateRules(new Token(jwtNameNotString)));
     }
 
     @Test

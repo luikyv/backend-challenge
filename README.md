@@ -6,13 +6,14 @@ a list of TokenRuleValidator which is an interface.
 Each class that implements TokenRuleValidator is responsible for ensuring one business rule. For instance, the class
 TokenNumberOfClaimsRuleValidator verifies that the JWT has only the claims "Name", "Role" and "Seed".
 
-Some points worth noting:
+Some points worth noticing:
 - By using Spring's dependency injection, the moment we create a component class that implements TokenRuleValidator,
 the class will be referenced in the list held by TokenValidator. This allows us to extend business rules without having
 to make changes on existing code.
 - We assumed there will be just one set of business rules for JWTs. That means every JWT must comply with all the business
 rules defined. However, if we'd have, let's say, two sets of rules, we could easily refactor the code to separate the rule
 validators by, for instance, creating one interface for each group of rules.
+- We assumed that the values of the claims in a JWT are always Strings.
 
 ## Class Diagram
 ```mermaid
@@ -93,3 +94,4 @@ The response of `/validate` is a boolean value indicating whether the JWT passed
 * Parse JWTs: https://developer.okta.com/blog/2018/10/31/jwts-with-java; https://www.youtube.com/watch?v=O-sTJbeUagE
 * Autowired collections: https://javabydeveloper.com/spring-injecting-collections/#4-5-injecting-components-as-list
 * Test endpoints: https://reflectoring.io/spring-boot-test/
+* Primality test: https://en.wikipedia.org/wiki/Primality_test

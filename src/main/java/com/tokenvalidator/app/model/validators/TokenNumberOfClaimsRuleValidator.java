@@ -1,5 +1,6 @@
 package com.tokenvalidator.app.model.validators;
 
+import com.tokenvalidator.app.model.validators.exceptions.InvalidClaimValueException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.springframework.stereotype.Component;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Component;
  * Rule: there must be three claims: "Name", "Seed" and "Role"
  */
 @Component
-public class TokenNumberOfClaimsRuleValidator implements TokenRuleValidator {
+public class TokenNumberOfClaimsRuleValidator extends TokenRuleValidator {
     private enum AllowedClaims {
         Name, Role, Seed;
     }
@@ -19,10 +20,14 @@ public class TokenNumberOfClaimsRuleValidator implements TokenRuleValidator {
         }
 
         for(AllowedClaims allowedClaim: AllowedClaims.values()) {
-            String value = claims.get(allowedClaim.name(), String.class);
-            if(value == null) {return false;}
+            try {
+                getClaimValue(jws, allowedClaim.name());
+            } catch (InvalidClaimValueException e) {
+                return false;
+            }
         }
 
         return true;
     }
+
 }

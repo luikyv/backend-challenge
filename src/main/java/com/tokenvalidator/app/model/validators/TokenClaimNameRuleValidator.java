@@ -1,5 +1,6 @@
 package com.tokenvalidator.app.model.validators;
 
+import com.tokenvalidator.app.model.validators.exceptions.InvalidClaimValueException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,7 @@ import java.util.regex.Pattern;
  * Rule: the claim "Name" must neither contain digits nor be larger than 256 characters
  */
 @Component
-public class TokenClaimNameRuleValidator implements TokenRuleValidator {
+public class TokenClaimNameRuleValidator extends TokenRuleValidator {
     private Pattern numberPattern;
     public TokenClaimNameRuleValidator() {
         // Instantiate pattern to identify digits
@@ -21,12 +22,11 @@ public class TokenClaimNameRuleValidator implements TokenRuleValidator {
     public boolean validateRule(Jws<Claims> jws) {
         String name;
         try {
-            name = jws.getBody().get("Name", String.class);
-        } catch (io.jsonwebtoken.RequiredTypeException e) {
+            name = getClaimValue(jws, "Name");
+        } catch (InvalidClaimValueException e) {
             return false;
         }
-
-        if(name == null || name.length() > 256) { return false; }
+        if(name.length() > 256) { return false; }
 
         Matcher matcher = numberPattern.matcher(name);
         return !matcher.find(); // true if no number was found
