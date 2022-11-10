@@ -7,7 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Define and apply business rules to validate tokens
  */
-@Component
+@Service
 public class TokenValidator {
     @Autowired
     // List containing all the implementations of TokenRuleValidator

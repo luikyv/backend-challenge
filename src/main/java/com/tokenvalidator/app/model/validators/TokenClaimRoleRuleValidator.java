@@ -3,12 +3,12 @@ package com.tokenvalidator.app.model.validators;
 import com.tokenvalidator.app.model.validators.exceptions.InvalidClaimValueException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Rule: the claim "Role" must be either "Admin", "Member" or "External"
  */
-@Component
+@Service
 public class TokenClaimRoleRuleValidator extends TokenRuleValidator {
 
     private enum Roles {

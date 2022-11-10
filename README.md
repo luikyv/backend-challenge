@@ -73,12 +73,12 @@ Diagram built using mermaid.js. More info on: https://mermaid-js.github.io/merma
 
 Some comments on the implementation:
 * The validateRule method defined in the TokenRuleValidator interface receives a Jws<Claims> parameter which is
-a decrypted version of the respective JWT. By doing so we only need to perform the decryption once. This is done
+a decrypted version of the respective JWT. By doing so, we only need to perform the decryption once. This is done
 in the validateRules method of the TokenValidator.
-* The validateRules method of the TokenValidator call the validateRule of each class implementing TokenRuleValidator.
+* The validateRules method of the TokenValidator calls the validateRule of each class implementing TokenRuleValidator.
 Therefore, TokenValidator is decoupled from the implementation of the rules.
-* The validate method of TokenController simply call the validateRules of TokenValidator.
-* The secret used sign and verify JWT signatures is store in the file /resources/application.properties.
+* The validate method of TokenController simply calls the validateRules of TokenValidator.
+* The secret used to sign and verify the JWT signatures is store in the file /resources/application.properties.
 In a real scenario, this secret could be stored using GitHub secrets.
 
 ## How-to

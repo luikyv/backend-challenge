@@ -3,12 +3,12 @@ package com.tokenvalidator.app.model.validators;
 import com.tokenvalidator.app.model.validators.exceptions.InvalidClaimValueException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Rule: The claims "Seed" must be a prime number
  */
-@Component
+@Service
 public class TokenClaimSeedRuleValidator extends TokenRuleValidator {
     public boolean validateRule(Jws<Claims> jws) {
         String seedString;
