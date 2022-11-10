@@ -17,12 +17,12 @@ import java.util.List;
  */
 @Service
 public class TokenValidator {
-    @Autowired
     // List containing all the implementations of TokenRuleValidator
     private List<TokenRuleValidator> tokenRuleValidators;
     private Key key;
-
-    public TokenValidator(@Value("${secret}") String secret) {
+    @Autowired
+    public TokenValidator(List<TokenRuleValidator> tokenRuleValidators, @Value("${secret}") String secret) {
+        this.tokenRuleValidators = tokenRuleValidators;
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 

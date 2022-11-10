@@ -10,8 +10,12 @@ import com.tokenvalidator.app.model.Token;
 @RestController
 public class TokenController {
 
-	@Autowired
+
 	private TokenValidator tokenValidator;
+	@Autowired
+	public TokenController(TokenValidator tokenValidator) {
+		this.tokenValidator = tokenValidator;
+	}
 
 	@PostMapping(value="/validate")
 	public boolean validate( @RequestBody Token token) {
