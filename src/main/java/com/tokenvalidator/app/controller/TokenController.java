@@ -11,7 +11,7 @@ import com.tokenvalidator.app.model.Token;
 public class TokenController {
 
 
-	private TokenValidator tokenValidator;
+	private final TokenValidator tokenValidator;
 	@Autowired
 	public TokenController(TokenValidator tokenValidator) {
 		this.tokenValidator = tokenValidator;

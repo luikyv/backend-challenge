@@ -5,6 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 /**
  * Rule: there must be three claims: "Name", "Seed" and "Role"
  */

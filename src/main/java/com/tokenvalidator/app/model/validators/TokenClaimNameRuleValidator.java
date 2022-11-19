@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 @Service
 public class TokenClaimNameRuleValidator extends TokenRuleValidator {
-    private Pattern numberPattern;
+    private final Pattern numberPattern;
     public TokenClaimNameRuleValidator() {
         // Instantiate pattern to identify digits
         numberPattern = Pattern.compile("\\d", Pattern.CASE_INSENSITIVE);

@@ -36,13 +36,9 @@ public class TokenValidator {
             //TODO: Catch the right exceptions
         } catch (Exception e) { return false; }
 
-        // Check each one of the business rules
-        for(TokenRuleValidator tokenRuleValidator: tokenRuleValidators) {
-            // If any of the rules is not validated, return false
-            if(!tokenRuleValidator.validateRule(jws)) {
-                return false;
-            }
-        }
-        return true;
+        // True if all the business rules are valid
+        return tokenRuleValidators.stream().allMatch(
+                (tokenRuleValidator) -> tokenRuleValidator.validateRule(jws)
+        );
     }
 }
